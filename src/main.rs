@@ -1,0 +1,102 @@
+mod scaffold;
+
+use anyhow::{bail, Result};
+use clap::{Parser, Subcommand, ValueEnum};
+use colored::*;
+use scaffold::scaffold_project;
+use std::path::PathBuf;
+
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+#[command(propagate_version = true)]
+pub struct Cli {
+    #[command(subcommand)]
+    pub command: Commands,
+}
+
+#[derive(Subcommand, Debug)]
+pub enum Commands {
+    /// Create a new Forge project
+    New {
+        /// The name of the project to create
+        name: String,
+
+        /// The database to use for the project
+        #[arg(long, value_enum, help = "Database type")]
+        db: Option<Database>,
+
+        /// The frontend framework to use
+        #[arg(long, value_enum, default_value_t = Frontend::Dioxus, help = "Frontend framework")]
+        frontend: Frontend,
+    },
+}
+
+#[derive(ValueEnum, Clone, Debug, Copy, PartialEq, Eq)]
+#[clap(rename_all = "kebab_case")]
+pub enum Database {
+    Postgres,
+    Mysql,
+    Mongodb,
+    Firebase,
+}
+
+#[derive(ValueEnum, Clone, Debug, Copy, Default, PartialEq, Eq)]
+#[clap(rename_all = "kebab_case")]
+pub enum Frontend {
+    #[default]
+    Dioxus,
+    Htmx,
+}
+
+fn main() -> Result<()> {
+    let cli = Cli::parse();
+
+    match &cli.command {
+        Commands::New {
+            name,
+            db,
+            frontend,
+        } => {
+            println!(
+                "🔥Initializing new Forge project '{}'...",
+                name.bold().cyan()
+            );
+
+            // Determine the template directory based on flags
+            let template_name = match (frontend, db) {
+                (Frontend::Htmx, None) => "static-htmx",
+                (Frontend::Dioxus, None) => "static-dioxus",
+                (Frontend::Htmx, Some(Database::Postgres)) => "postgres-htmx",
+                (Frontend::Dioxus, Some(Database::Postgres)) => "postgres-dioxus",
+                (Frontend::Htmx, Some(Database::Mysql)) => "mysql-htmx",
+                (Frontend::Dioxus, Some(Database::Mysql)) => "mysql-dioxus",
+                (Frontend::Htmx, Some(Database::Mongodb)) => "mongodb-htmx",
+                (Frontend::Dioxus, Some(Database::Mongodb)) => "mongodb-dioxus",
+                (Frontend::Htmx, Some(Database::Firebase)) => "firebase-htmx",
+                (Frontend::Dioxus, Some(Database::Firebase)) => "firebase-dioxus", 
+            };
+
+            let template_path = PathBuf::from("templates").join(template_name);
+
+            if !template_path.exists() {
+                let error_msg = format!("Template '{}' not found!", template_path.display());
+                bail!(error_msg.red().to_string());
+            }
+
+            scaffold_project(name, &template_path)?;
+
+            println!("\n🎉 Success! Your project is ready.");
+            println!("\nNext steps:");
+            println!("   1. {}", format!("cd {}", name).cyan());
+            if db.is_some() {
+                println!("   2. {}", "cp .env.example .env".cyan());
+                println!("   3. {}", "Update .env with your credentials".cyan());
+                println!("   4. {}", "cargo run".cyan());
+            } else {
+                println!("   2. {}", "cargo run".cyan());
+            }
+        }
+    }
+
+    Ok(())
+}

@@ -1,0 +1,18 @@
+[application]
+name = "__PROJECT_NAME__"
+default_platform = "web"
+
+[web.app]
+# The name of the crate that will be compiled to wasm
+crate = "__PROJECT_NAME__"
+# The index.html file to be served
+index = "index.html"
+
+[web.watcher]
+# The directory to watch for changes
+watch = "src"
+
+[web.server]
+# The directory to serve static assets from.
+# This will be created by the Dioxus CLI's build process.
+serve_path = "dist"
