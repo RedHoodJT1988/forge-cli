@@ -1,0 +1,13 @@
+[application]
+name = "__PROJECT_NAME__"
+default_platform = "web"
+
+[web.app]
+crate = "__PROJECT_NAME__"
+index = "index.html"
+
+[web.watcher]
+watch = "src"
+
+[web.resource]
+asset_dir = "public"
