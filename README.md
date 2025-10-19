@@ -41,7 +41,7 @@ forge new <PROJECT_NAME> [OPTIONS]
 |`--frontend`| `dioxus` (default), `htmx`| The frontend framework to use.
 |`--db`|`postgres`, `mysql`, `mongodb`, `firebase`| The database to configure. If omitted, a static site (no DB) is created.
 |`-h`, `--help`| |Print help information.
-|--------------------------|
+
 
 ### Examples
 1. Create a default static site with Dioxus (no database):
