@@ -57,9 +57,18 @@ fn main() -> Result<()> {
             db,
             frontend,
         } => {
+            let project_path = PathBuf::from(name);
+
+            // Extract just the final component as the project name
+            let project_name = project_path
+                .file_name()
+                .ok_or_else(|| anyhow::anyhow!("Invalid project path: {}", name))?
+                .to_str()
+                .ok_or_else(|| anyhow::anyhow!("Project name contains invalid UTF-8"))?;
+
             println!(
-                "🔥Initializing new Forge project '{}'...",
-                name.bold().cyan()
+                "🔥 Initializing new Forge project '{}'...",
+                project_name.bold().cyan()
             );
 
             // Determine the template directory based on flags
@@ -83,7 +92,7 @@ fn main() -> Result<()> {
                 bail!(error_msg.red().to_string());
             }
 
-            scaffold_project(name, &template_path)?;
+            scaffold_project(&project_path, project_name, &template_path)?;
 
             println!("\n🎉 Success! Your project is ready.");
             println!("\nNext steps:");
