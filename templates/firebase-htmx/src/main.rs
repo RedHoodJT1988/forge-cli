@@ -27,7 +27,7 @@ async fn root_page(State(state): State<AppState>) -> Markup {
         (DOCTYPE)
         html {
             head {
-                title { "Forge + HTMX + Firebase" }
+                title { "Trestle + HTMX + Firebase" }
                 meta name="viewport" content="width=device-width, initial-scale=1.0";
                 script src="https://unpkg.com/htmx.org@1.9.12" {}
                 script src="https://cdn.tailwindcss.com" {}

@@ -13,7 +13,7 @@ pub fn App(cx: Scope) -> Element {
       class: "bg-gray-900 text-white flex items-center justify-center h-screen",
       div {
         class: "text-center",
-        h1 { class: "text-5xl font-bold mb-4", "Hello from Forge + Dioxus! 🚀"}
+        h1 { class: "text-5xl font-bold mb-4", "Hello from Trestle + Dioxus! 🚀"}
         p {
           class: "text-xl mb-8",
           "Count: ",

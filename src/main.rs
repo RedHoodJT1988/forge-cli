@@ -16,7 +16,7 @@ pub struct Cli {
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
-    /// Create a new Forge project
+    /// Create a new Trestle project
     New {
         /// The name of the project to create
         name: String,
@@ -67,7 +67,7 @@ fn main() -> Result<()> {
                 .ok_or_else(|| anyhow::anyhow!("Project name contains invalid UTF-8"))?;
 
             println!(
-                "🔥 Initializing new Forge project '{}'...",
+                "🔥 Initializing new Trestle project '{}'...",
                 project_name.bold().cyan()
             );
 

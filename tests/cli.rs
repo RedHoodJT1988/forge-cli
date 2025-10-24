@@ -10,8 +10,8 @@ fn test_create_static_htmx() -> Result<(), Box<dyn std::error::Error>> {
     let project_name = "my-test-app";
     let project_path = temp_dir.child(project_name);
 
-    // Run `forge-cli new my-test-app --frontend htmx`
-    Command::cargo_bin("forge-cli")?
+    // Run `trestle new my-test-app --frontend htmx`
+    Command::cargo_bin("trestle")?
         .arg("new")
         .arg(project_path.path())
         .arg("--frontend")
@@ -41,7 +41,7 @@ fn test_create_dioxus_postgres() -> Result<(), Box<dyn std::error::Error>> {
     let project_name = "my-dioxus-pg-app";
     let project_path = temp_dir.child(project_name);
 
-    Command::cargo_bin("forge-cli")?
+    Command::cargo_bin("trestle")?
         .arg("new")
         .arg(project_path.path())
         .arg("--frontend").arg("dioxus")

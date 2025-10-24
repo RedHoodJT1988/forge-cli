@@ -16,7 +16,7 @@ async fn hello_page() -> Markup {
       }
       body class="bg-gray-900 text-white flex items-center justify-center h-screen" {
         div class="text-center" {
-          h1 class="text-5xl font-bold mb-4" { "Hello from Forge! 🚀"}
+          h1 class="text-5xl font-bold mb-4" { "Hello from Trestle! 🚀"}
           p class="text-xl mb-8" { "This page was rendered by the Axum backend using Maud."}
           button
             class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

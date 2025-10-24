@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use colored::*;
 use std::fs;
-use std::path::{Path, PathBuf}; // This is correct, PathBuf is used by target_path
+use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
 
 const PLACEHOLDER: &str = "__PROJECT_NAME__";
