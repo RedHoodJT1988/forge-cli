@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use colored::*;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::{Path};
 use walkdir::WalkDir;
 
 const PLACEHOLDER: &str = "__PROJECT_NAME__";
@@ -24,7 +24,7 @@ pub fn scaffold_project(
     for entry in WalkDir::new(template_path).into_iter().filter_map(|e| e.ok()) {
         let path = entry.path();
         let relative_path = path.strip_prefix(template_path)?;
-        let target_path = target_dir.join(relative_path); // PathBuf is used here
+        let target_path = target_dir.join(relative_path);
 
         if path.is_dir() {
             fs::create_dir_all(&target_path)
