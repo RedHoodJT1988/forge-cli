@@ -8,7 +8,7 @@ description = "A CLI tool to scaffold Rust web applications with Axum, Dioxus, o
 readme = "README.md"
 repository = "https://github.com/RedHoodJT1988/trestle"
 license = "MIT"
-keywords = ["web", "framework", "scaffold", "dioxus", "htmx", "trestle"]
+keywords = ["framework", "scaffold", "dioxus", "htmx", "trestle"]
 categories = ["command-line-utilities", "web-programming"]
 
 [dependencies]
