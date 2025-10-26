@@ -1,7 +1,11 @@
 # 🔥 Trestle
 **Trestle a new path for Rust web development. One command to rule all your boilerplate.**
 
-Trestle is a command-line tool designed to eliminate the boilerplate and setup cost of starting a new full-stack project in Rust. Inspired by frameworks like Django and Rails, `Trestle` scaffolds a complete, runnable applicaiton with a lightning-fast Axum backend, so you can start building features immediately.
+[![Rust CI](https://img.shields.io/github/actions/workflow/status/RedHoodJT1988/trestle/rust.yml?branch=main&style=for-the-badge)](https://github.com/RedHoodJT1988/trestle/actions/workflows/rust.yml)
+[![Crates.io](https://img.shields.io/crates/v/trestle?style=for-the-badge&color=fd6a02)](https://crates.io/crates/trestle)
+[![MIT License](https://img.shields.io/github/license/RedHoodJT1988/trestle?style=for-the-badge&color=blue)](https://github.com/RedHoodJT1988/trestle/blob/main/LICENSE)
+
+Trestle is a command-line tool designed to eliminate the boilerplate and setup cost of starting a new full-stack project in Rust. Inspired by frameworks like Django and Rails, `Trestle` scaffolds a complete, runnable application with a lightning-fast Axum backend, so you can start building features immediately.
 
 Choose between a modern, reactive frontend with **Dioxus** (all in Rust!) or the elegant simplicity of server-rendered **HTMX**.
 
@@ -14,10 +18,10 @@ Choose between a modern, reactive frontend with **Dioxus** (all in Rust!) or the
 	- **SQL:** PostgreSQL, MySQL (via `sqlx`)
 	- **NoSQL:** MongoDB
 	- **BaaS:**: Firebase (via REST API)
-- **Ready to Run:** Generated projects include a `.env.example`, pre-configured `Cargo.toml`, and all necdessary connection logic.
+- **Ready to Run:** Generated projects include a `.env.example`, pre-configured `Cargo.toml`, and all necessary connection logic.
 
 ## 🚀 **Installation**
-Once published, you can install `Trestle` directly from crates.io:
+Once published, you can install `trestle` directly from crates.io:
 ```bash
 cargo install trestle
 ```
@@ -33,7 +37,7 @@ cargo install --path .
 ## **Usage**
 The main command is Trestle new. It takes a project name and optional flags to configure the frontend and database.
 ```bash
-trestle new <PROJECT_NAME> [OPTIONS]
+trestle new <PROJECT_PATH> [OPTIONS]
 ```
 ### **Options**
 |Flag|Argument|Description|
@@ -84,7 +88,7 @@ We are thrilled you're interested in contributing to Trestle! This project is a 
 2. **Open an Issue:** If you have a feature idea or find a bug, please open an issue first to discuss it.
 3. **Fork and Clone:** Fork the repository and clone it locally.
 ```bash
-git clone https://github.com/RedHoodJT1988/Trestle.git
+git clone https://github.com/RedHoodJT1988/trestle.git
 cd trestle
 ```
 4. **Create a Branch:** Create a new branch for your feature or bugfix.
@@ -107,9 +111,9 @@ cargo run
 # 🗺️ **Roadmap**
 We have big plans for trestle! Here are some of the features we'd love to add:
 - [] **Authentication:** Scaffold complete auth logic (registration, login, sessions) for different strategies (e.g., JWT, cookies).
-- **[] More Databases:** Add support for `Redis`, `SQLite` (great for simple apps!), and other popular databases.
-- **[] Deployment:** Add `Dockerfile` and `fly.toml` generation for easy deployment.
-- **[Am] Interactive Mode:** An interactive `trestle new` command that walks the user through the setup process.
+- [] **More Databases:** Add support for `Redis`, `SQLite` (great for simple apps!), and other popular databases.
+- [] **Deployment:** Add `Dockerfile` and `fly.toml` generation for easy deployment.
+- [] **Interactive Mode:** An interactive `trestle new` command that walks the user through the setup process.
 
 Your contributions are essential to making this happen!
 
