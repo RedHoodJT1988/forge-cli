@@ -1,6 +1,6 @@
 [package]
 name = "trestle"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 
 authors = ["Jonathan Reeves programmingwithjon@gmail.com"]
@@ -10,12 +10,21 @@ repository = "https://github.com/RedHoodJT1988/trestle"
 license = "MIT"
 keywords = ["framework", "scaffold", "dioxus", "htmx", "trestle"]
 categories = ["command-line-utilities", "web-programming"]
+include = [
+    "Cargo.toml",
+    "README.md",
+    "LICENSE",
+    "src/**",
+    "templates/**",
+    "tests/**"
+]
 
 [dependencies]
 anyhow = "1.0.86"
 clap = { version = "4.5.4", features = ["derive"] }
 colored = "2.1.0"
 walkdir = "2.5.0"
+include_dir = "0.7"
 
 [dev-dependencies]
 assert_cmd = "2.0"

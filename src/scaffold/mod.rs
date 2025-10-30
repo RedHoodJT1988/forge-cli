@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use colored::*;
 use std::fs;
-use std::path::{Path};
+use std::path::Path;
 use walkdir::WalkDir;
 
 const PLACEHOLDER: &str = "__PROJECT_NAME__";
@@ -43,6 +43,74 @@ pub fn scaffold_project(
                 .with_context(|| format!("Failed to write file: {}", target_path.display()))?;
         }
     }
+
+    println!(
+        "{} {}",
+        "✓".green(),
+        "Project scaffolded successfully!".bold()
+    );
+    Ok(())
+}
+
+/// Scaffold a project from embedded templates using include_dir.
+/// This avoids relying on a runtime `templates/` directory, which is not shipped in crates.io installs.
+pub fn scaffold_project_embedded(
+    target_dir: &Path,
+    project_name: &str,
+    template_name: &str,
+    templates_root: &include_dir::Dir,
+) -> Result<()> {
+    if target_dir.exists() {
+        anyhow::bail!("Directory '{}' already exists.", target_dir.display());
+    }
+
+    println!(
+        "{} Creating project in '{}'...",
+        "✓".green(),
+        target_dir.display()
+    );
+
+    let template_dir = templates_root
+        .get_dir(template_name)
+        .ok_or_else(|| anyhow::anyhow!("Template '{}' not found in embedded assets", template_name))?;
+
+    // Helper to recursively copy directories and files
+    fn copy_dir_recursive(
+        src: &include_dir::Dir,
+        root: &include_dir::Dir,
+        target_root: &Path,
+        project_name: &str,
+    ) -> Result<()> {
+        // Ensure this directory exists at destination
+        let rel = src.path().strip_prefix(root.path()).unwrap_or(src.path());
+        let dir_target = target_root.join(rel);
+        fs::create_dir_all(&dir_target)
+            .with_context(|| format!("Failed to create directory: {}", dir_target.display()))?;
+
+        // Files in this directory
+        for f in src.files() {
+            let rel_f = f.path().strip_prefix(root.path()).unwrap_or(f.path());
+            let target_path = target_root.join(rel_f);
+            if let Some(parent) = target_path.parent() { fs::create_dir_all(parent).ok(); }
+
+            let bytes = f.contents();
+            let new_content = match std::str::from_utf8(bytes) {
+                Ok(s) => s.replace(PLACEHOLDER, project_name).into_bytes(),
+                Err(_) => bytes.to_vec(),
+            };
+            fs::write(&target_path, new_content)
+                .with_context(|| format!("Failed to write file: {}", target_path.display()))?;
+        }
+
+        // Recurse into subdirectories
+        for d in src.dirs() {
+            copy_dir_recursive(d, root, target_root, project_name)?;
+        }
+
+        Ok(())
+    }
+
+    copy_dir_recursive(template_dir, template_dir, target_dir, project_name)?;
 
     println!(
         "{} {}",

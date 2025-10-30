@@ -3,8 +3,9 @@ mod scaffold;
 use anyhow::{bail, Result};
 use clap::{Parser, Subcommand, ValueEnum};
 use colored::*;
-use scaffold::scaffold_project;
+use scaffold::{scaffold_project, scaffold_project_embedded};
 use std::path::PathBuf;
+use include_dir::{include_dir, Dir};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -85,14 +86,22 @@ fn main() -> Result<()> {
                 (Frontend::Dioxus, Some(Database::Firebase)) => "firebase-dioxus", 
             };
 
-            let template_path = PathBuf::from("templates").join(template_name);
+            // Prefer embedded templates (works in crates.io installs). Fallback to FS for local dev.
+            static TEMPLATES: Dir = include_dir!("$CARGO_MANIFEST_DIR/templates");
+            if TEMPLATES.get_dir(template_name).is_some() {
+                scaffold_project_embedded(&project_path, project_name, template_name, &TEMPLATES)?;
+            } else {
+                let template_path = PathBuf::from("templates").join(template_name);
+                if !template_path.exists() {
+                    let error_msg = format!(
+                        "Template '{}' not found in embedded assets or on disk!",
+                        template_path.display()
+                    );
+                    bail!(error_msg.red().to_string());
+                }
 
-            if !template_path.exists() {
-                let error_msg = format!("Template '{}' not found!", template_path.display());
-                bail!(error_msg.red().to_string());
+                scaffold_project(&project_path, project_name, &template_path)?;
             }
-
-            scaffold_project(&project_path, project_name, &template_path)?;
 
             println!("\n🎉 Success! Your project is ready.");
             println!("\nNext steps:");
