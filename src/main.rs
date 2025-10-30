@@ -87,7 +87,7 @@ fn main() -> Result<()> {
             };
 
             // Prefer embedded templates (works in crates.io installs). Fallback to FS for local dev.
-            static TEMPLATES: Dir = include_dir!("$CARGO_MANIFEST_DIR/templates");
+            static TEMPLATES: Dir = include_dir!("templates");
             if TEMPLATES.get_dir(template_name).is_some() {
                 scaffold_project_embedded(&project_path, project_name, template_name, &TEMPLATES)?;
             } else {
