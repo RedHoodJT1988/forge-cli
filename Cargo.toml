@@ -10,6 +10,14 @@ repository = "https://github.com/RedHoodJT1988/trestle"
 license = "MIT"
 keywords = ["framework", "scaffold", "dioxus", "htmx", "trestle"]
 categories = ["command-line-utilities", "web-programming"]
+include = [
+    "Cargo.toml",
+    "README.md",
+    "LICENSE",
+    "src/**",
+    "templates/**",
+    "tests/**"
+]
 
 [dependencies]
 anyhow = "1.0.86"
